@@ -10,7 +10,7 @@ jobs:
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK: https://hooks.slack.com/services/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
+          SLACK_WEBHOOK: https://hooks.slack.com/services/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
           SLACK_TITLE: Get A GITHUB VM
           SLACK_MESSAGE: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       - name: Tmate
