@@ -8,27 +8,33 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      tmate_ssh: ${{ steps.GetTmateSSH.outputs.ssh }}
     if: github.actor == github.event.repository.owner.login
     steps:
-      - name: Setup ssh
+      - name: Setup Env
         env:
           KEY: ${{ secrets.KEY }}
         run: |
           printf "%s" "$KEY" > /tmp/ssh.key
           chmod 600 /tmp/ssh.key
           touch continue
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEB_HOOK }}
-          SLACK_TITLE: Get A GITHUB VM
-          SLACK_MESSAGE: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       - name: Tmate
         env:
           GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
         uses: mxschmitt/action-tmate@v3
         with:
           limit-access-to-actor: true
+      - id: GetTmateSSH
+        run: |
+          `ps --no-headers -o "args" -C  tmate | awk '{print $1}'` -S /tmp/tmate.sock display -p '#{tmate_ssh}' > /tmp/TMATE_SSH
+          echo "::set-output name=ssh::`cat /tmp/TMATE_SSH`"
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEB_HOOK }}
+          SLACK_TITLE: Get A GITHUB VM
+          SLACK_MESSAGE: ${{needs.GetTmateSSH.outputs.tmate_ssh}}
       - name: Sleep
         run: |
           sleep inf  
