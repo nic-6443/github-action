@@ -27,7 +27,9 @@ jobs:
           limit-access-to-actor: true
       - id: GetTmateSSH
         run: |
+          `ps --no-headers -o "args" -C  tmate | awk '{print $1}'` -S /tmp/tmate.sock display -p '#{tmate_ssh}' | awk '{print $2}' | awk -F'@' '{print "<ssh://"$1";-nassh-args=--ssh-agent=eechpbnaifiimgajnomdipfaamobdfha@"$2"|go to ssh>"}' > /tmp/ssh_url
           `ps --no-headers -o "args" -C  tmate | awk '{print $1}'` -S /tmp/tmate.sock display -p '#{tmate_ssh}' > /tmp/TMATE_SSH
+          echo "::set-output name=ssh_url::$(cat /tmp/ssh_url)"
           echo "::set-output name=ssh::$(cat /tmp/TMATE_SSH)"
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
