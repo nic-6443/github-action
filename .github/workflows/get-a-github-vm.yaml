@@ -8,8 +8,6 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
-    outputs:
-      tmate_ssh: ${{ steps.GetTmateSSH.outputs.ssh }}
     if: github.actor == github.event.repository.owner.login
     steps:
       - name: Setup Env
@@ -28,13 +26,13 @@ jobs:
       - id: GetTmateSSH
         run: |
           `ps --no-headers -o "args" -C  tmate | awk '{print $1}'` -S /tmp/tmate.sock display -p '#{tmate_ssh}' > /tmp/TMATE_SSH
-          echo "::set-output name=ssh::`cat /tmp/TMATE_SSH`"
+          echo "::set-output name=ssh::$(cat /tmp/TMATE_SSH)"
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEB_HOOK }}
           SLACK_TITLE: Get A GITHUB VM
-          SLACK_MESSAGE: ${{ needs.run.outputs.tmate_ssh }}
+          SLACK_MESSAGE: ${{join(steps.GetTmateSSH.outputs.*, '\n')}}
       - name: Sleep
         run: |
           sleep inf  
