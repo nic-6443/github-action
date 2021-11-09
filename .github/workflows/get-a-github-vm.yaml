@@ -7,7 +7,15 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor == github.event.repository.owner.login
     steps:
+      - name: Setup ssh
+        env:
+          KEY: ${{ secrets.KEY }}
+        run: |
+          echo $KEY > /tmp/ssh.key
+          chmod 600 /tmp/ssh.key
       - name: Tmate
+        env:
+          GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key" 
         uses: mxschmitt/action-tmate@v3
         with:
           limit-access-to-actor: true
