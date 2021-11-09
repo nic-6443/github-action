@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - main
+  repository_dispatch:
+    types: [run]
 jobs:
   run:
     runs-on: ubuntu-latest
