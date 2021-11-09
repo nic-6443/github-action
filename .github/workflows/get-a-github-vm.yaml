@@ -24,7 +24,8 @@ jobs:
           SLACK_MESSAGE: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       - name: Tmate
         env:
-          GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key" 
+          GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
+          KEY: ${{ secrets.KEY }}
         uses: mxschmitt/action-tmate@v3
         with:
           limit-access-to-actor: true
