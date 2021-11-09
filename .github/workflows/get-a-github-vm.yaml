@@ -1,0 +1,19 @@
+name: Get A GITHUB VM
+on:
+  watch:
+    types: [started]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.actor == github.event.repository.owner.login
+    steps:
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: https://hooks.slack.com/services/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
+          SLACK_TITLE: Get A GITHUB VM
+          SLACK_MESSAGE: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      - name: Tmate
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
