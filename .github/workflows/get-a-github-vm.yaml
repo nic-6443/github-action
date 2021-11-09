@@ -2,6 +2,9 @@ name: Get A GITHUB VM
 on:
   watch:
     types: [started]
+  push:
+    branches:
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,3 +28,6 @@ jobs:
         uses: mxschmitt/action-tmate@v3
         with:
           limit-access-to-actor: true
+      - name: Sleep
+        run: |
+          sleep inf  
