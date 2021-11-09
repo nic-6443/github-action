@@ -6,7 +6,7 @@ on:
     branches:
       - main
 jobs:
-  build:
+  run:
     runs-on: ubuntu-latest
     outputs:
       tmate_ssh: ${{ steps.GetTmateSSH.outputs.ssh }}
@@ -34,7 +34,7 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEB_HOOK }}
           SLACK_TITLE: Get A GITHUB VM
-          SLACK_MESSAGE: ${{needs.GetTmateSSH.outputs.tmate_ssh}}
+          SLACK_MESSAGE: ${{ needs.run.outputs.tmate_ssh }}
       - name: Sleep
         run: |
           sleep inf  
