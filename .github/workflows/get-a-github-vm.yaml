@@ -39,4 +39,4 @@ jobs:
           SLACK_MESSAGE: "${{join(steps.GetTmateSSH.outputs.*, '\n')}}"
       - name: Wait tmate exit
         run: |
-          while true; do ps -ec |grep  -q tmate || break; sleep 5; done
+          while true; do pgrep tmate || break; sleep 5; done
