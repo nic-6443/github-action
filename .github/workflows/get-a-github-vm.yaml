@@ -40,3 +40,36 @@ jobs:
       - name: Wait tmate exit
         run: |
           while true; do ps -ec |grep  -q tmate || break; sleep 5; done
+      - name: Wait tmate exit
+        run: |
+          while true; do ps -ec |grep  -q tmate || break; sleep 5; done
+      - name: Wait tmate exit
+        run: |
+          while true; do ps -ec |grep  -q tmate || break; sleep 5; done
+      - name: Wait tmate exit
+        run: |
+          while true; do ps -ec |grep  -q tmate || break; sleep 5; done
+      - name: Wait tmate exit
+        run: |
+          while true; do ps -ec |grep  -q tmate || break; sleep 5; done
+      - name: Wait tmate exit
+        run: |
+          while true; do ps -ec |grep  -q tmate || break; sleep 5; done
+      - name: Wait tmate exit
+        run: |
+          while true; do ps -ec |grep  -q tmate || break; sleep 5; done
+      - name: Wait tmate exit
+        run: |
+          while true; do ps -ec |grep  -q tmate || break; sleep 5; done
+      - name: Wait tmate exit
+        run: |
+          while true; do ps -ec |grep  -q tmate || break; sleep 5; done
+      - name: Wait tmate exit
+        run: |
+          while true; do ps -ec |grep  -q tmate || break; sleep 5; done
+      - name: Wait tmate exit
+        run: |
+          while true; do ps -ec |grep  -q tmate || break; sleep 5; done
+      - name: Wait tmate exit
+        run: |
+          while true; do ps -ec |grep  -q tmate || break; sleep 5; done
