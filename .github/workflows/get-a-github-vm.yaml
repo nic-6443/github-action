@@ -33,6 +33,6 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEB_HOOK }}
           SLACK_TITLE: Get A GITHUB VM
           SLACK_MESSAGE: ${{join(steps.GetTmateSSH.outputs.*, '\n')}}
-      - name: Sleep
+      - name: Wait tmate exit
         run: |
-          sleep inf  
+          while true; do ps -ec |grep  -q tmate || break; sleep 5; done
