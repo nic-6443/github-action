@@ -19,6 +19,7 @@ jobs:
           sudo mv kind /usr/local/bin
           curl -sS https://webinstall.dev/k9s | bash
           sudo apt install zsh
+          sudo chmod g-w,o-w /usr/share/zsh /usr/share/zsh/vendor-completions
           sudo sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
       - name: Setup Go Env
         uses: actions/setup-go@v1
@@ -38,7 +39,7 @@ jobs:
       - name: Tmate
         env:
           GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
-        uses: mxschmitt/action-tmate@v3
+        uses: nic-6443/action-tmate@v3.7
         with:
           limit-access-to-actor: true
       - id: GetTmateSSH
