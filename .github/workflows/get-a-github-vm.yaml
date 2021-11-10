@@ -20,7 +20,7 @@ jobs:
       - name: Setup Go Env
         uses: actions/setup-go@v1
         with:
-          go-version: "1.13"
+          go-version: "1.16.5"
       - name: Setup Env
         env:
           KEY: ${{ secrets.KEY }}
