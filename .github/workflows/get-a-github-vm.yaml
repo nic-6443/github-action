@@ -42,6 +42,10 @@ jobs:
         uses: nic-6443/action-tmate@v3.7
         with:
           limit-access-to-actor: true
+          tmate-server-host: ${{ secrets.TMATE_SERVER_HOST }}
+          tmate-server-port: ${{ secrets.TMATE_SERVER_PORT }}
+          tmate-server-rsa-fingerprint: ${{ secrets.TMATE_SERVER_RSA_FINGERPRINT }}
+          tmate-server-ed25519-fingerprint: ${{ secrets.TMATE_SERVER_ED25519_FINGERPRINT }}
       - id: GetTmateSSH
         run: |
           `ps --no-headers -o "args" -C  tmate | awk '{print $1}'` -S /tmp/tmate.sock display -p '#{tmate_ssh}' | awk '{print $2}' | awk -F'@' '{print "<ssh://"$1";-nassh-args=--ssh-agent=eechpbnaifiimgajnomdipfaamobdfha@"$2"|go to ssh>"}' > /tmp/ssh_url
