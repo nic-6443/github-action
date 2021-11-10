@@ -17,6 +17,7 @@ jobs:
           curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
           chmod +x ./kind
           sudo mv kind /usr/local/bin
+          curl -sS https://webinstall.dev/k9s | bash
       - name: Setup Go Env
         uses: actions/setup-go@v1
         with:
