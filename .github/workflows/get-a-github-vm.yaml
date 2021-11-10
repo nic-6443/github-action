@@ -39,7 +39,7 @@ jobs:
       - name: Tmate
         env:
           GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
-        uses: nic-6443/action-tmate@v3.9
+        uses: nic-6443/action-tmate@v3.9.1
         with:
           limit-access-to-actor: true
           tmate-server-host: ssh.tmate.io
