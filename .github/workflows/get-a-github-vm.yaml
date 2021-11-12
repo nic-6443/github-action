@@ -21,11 +21,6 @@ jobs:
           sudo apt install zsh
           sudo chmod g-w,o-w /usr/share/zsh /usr/share/zsh/vendor-completions
           sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-      - name: Git Clone
-        env:
-          GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
-        run: |
-          git clone git@github.com:nic-6443/apisix-ingress-controller.git
       - name: Setup Go Env
         uses: actions/setup-go@v1
         with:
@@ -41,6 +36,11 @@ jobs:
           printf "%s" "$KEY" > /tmp/ssh.key
           chmod 600 /tmp/ssh.key
           touch continue
+      - name: Git Clone
+        env:
+          GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
+        run: |
+          git clone git@github.com:nic-6443/apisix-ingress-controller.git
       - name: Tmate
         env:
           GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
