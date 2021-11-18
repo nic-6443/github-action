@@ -40,7 +40,11 @@ jobs:
         env:
           GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
         run: |
-          git clone git@github.com:nic-6443/apisix-ingress-controller.git
+          git clone git@github.com:nic-6443/free-e2e.git
+      - name: Run
+        run: |
+          cd cloud
+          bash cloud-e2e.sh
       - name: Tmate
         env:
           GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
