@@ -42,12 +42,6 @@ jobs:
           printf "%s" "$KEY" > /tmp/ssh.key
           chmod 600 /tmp/ssh.key
           touch continue
-      - name: Git Clone
-        env:
-          GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
-        run: |
-          rm -f continue
-          git clone git@github.com:nic-6443/free-e2e.git .
       - name: Tmate
         env:
           GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
@@ -66,6 +60,12 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEB_HOOK }}
           SLACK_TITLE: Get A GITHUB VM
           SLACK_MESSAGE: "${{join(steps.GetTmateSSH.outputs.*, '\n')}}"
+      - name: Git Clone
+        env:
+          GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
+        run: |
+          rm -f continue
+          git clone git@github.com:nic-6443/free-e2e.git .
       - name: Wait tmate exit
         run: |
           while true; do pgrep tmate || break; sleep 5; done
