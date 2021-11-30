@@ -56,7 +56,6 @@ jobs:
         env:
           GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
         run: |
-          rm -f continue
           git clone git@github.com:nic-6443/free-e2e.git .
       - name: Wait tmate exit
         run: |
