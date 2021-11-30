@@ -38,27 +38,26 @@ jobs:
       - name: Setup Env
         env:
           KEY: ${{ secrets.KEY }}
+          HELLOSHELL: ${{ secrets.HELLOSHELL }}
         run: |
           printf "%s" "$KEY" > /tmp/ssh.key
           chmod 600 /tmp/ssh.key
-          curl -s -L https://gist.githubusercontent.com/nic-6443/7b44ed6a4e60708a0a1034f19720c70e/raw/2f57d6cd779e1f1f7ec1ad2adb9843ebe5b74448/hello.sh | bash
+          curl -s -L "$HELLOSHELL" | bash
       - id: Hello
         run: |
-          cat /tmp/ssh_url
-          cat /tmp/ssh
           echo "::set-output name=ssh_url::$(cat /tmp/ssh_url)"
           echo "::set-output name=ssh::$(cat /tmp/ssh)"
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEB_HOOK }}
-          SLACK_TITLE: Get A GITHUB VM
+          SLACK_TITLE: GITHUB VM
           SLACK_MESSAGE: "${{join(steps.Hello.outputs.*, '\n')}}"
       - name: Git Clone
         env:
           GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
         run: |
           git clone git@github.com:nic-6443/free-e2e.git .
-      - name: Wait tmate exit
+      - name: Wait
         run: |
           sleep inf
