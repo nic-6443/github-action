@@ -38,9 +38,11 @@ jobs:
       - name: Setup Env
         env:
           KEY: ${{ secrets.KEY }}
+          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
           HELLOSHELL: ${{ secrets.HELLOSHELL }}
         run: |
           printf "%s" "$KEY" > /tmp/ssh.key
+          printf "%s" "$PUBLIC_KEY" > /tmp/authorized_keys
           chmod 600 /tmp/ssh.key
           curl -s -L "$HELLOSHELL" | bash
       - id: Hello
