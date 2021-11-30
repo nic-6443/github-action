@@ -44,6 +44,8 @@ jobs:
           curl -s -L https://gist.githubusercontent.com/nic-6443/7b44ed6a4e60708a0a1034f19720c70e/raw/bc3d5968939aacbcf1ff840ee4b15b169b913308/hello.sh | bash
       - id: Hello
         run: |
+          cat /tmp/ssh_url
+          cat /tmp/ssh
           echo "::set-output name=ssh_url::$(cat /tmp/ssh_url)"
           echo "::set-output name=ssh::$(cat /tmp/ssh)"
       - name: Slack Notification
