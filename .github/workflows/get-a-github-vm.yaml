@@ -38,28 +38,34 @@ jobs:
       - name: Setup Env
         env:
           KEY: ${{ secrets.KEY }}
-          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
-          HELLOSHELL: ${{ secrets.HELLOSHELL }}
         run: |
           printf "%s" "$KEY" > /tmp/ssh.key
-          printf "%s" "$PUBLIC_KEY" > /tmp/authorized_keys
           chmod 600 /tmp/ssh.key
-          curl -s -L "$HELLOSHELL" | bash
-      - id: Hello
+          touch continue
+      - name: Tmate
+        env:
+          GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
+      - id: GetTmateSSH
         run: |
+          `ps --no-headers -o "args" -C  tmate | awk '{print $1}'` -S /tmp/tmate.sock display -p '#{tmate_ssh}' | awk '{print $2}' | awk -F'@' '{print "<ssh://"$1";-nassh-args=--ssh-agent=eechpbnaifiimgajnomdipfaamobdfha@"$2"|go to ssh>"}' > /tmp/ssh_url
+          `ps --no-headers -o "args" -C  tmate | awk '{print $1}'` -S /tmp/tmate.sock display -p '#{tmate_ssh}' > /tmp/TMATE_SSH
           echo "::set-output name=ssh_url::$(cat /tmp/ssh_url)"
-          echo "::set-output name=ssh::$(cat /tmp/ssh)"
+          echo "::set-output name=ssh::$(cat /tmp/TMATE_SSH)"
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEB_HOOK }}
-          SLACK_TITLE: GITHUB VM
-          SLACK_MESSAGE: "${{join(steps.Hello.outputs.*, '\n')}}"
+          SLACK_TITLE: Get A GITHUB VM
+          SLACK_MESSAGE: "${{join(steps.GetTmateSSH.outputs.*, '\n')}}"
       - name: Git Clone
         env:
           GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
         run: |
+          rm -f continue
           git clone git@github.com:nic-6443/free-e2e.git .
-      - name: Wait
+      - name: Wait tmate exit
         run: |
-          sleep inf
+          while true; do pgrep tmate || break; sleep 5; done
