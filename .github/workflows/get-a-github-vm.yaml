@@ -31,6 +31,8 @@ jobs:
         uses: actions/setup-go@v1
         with:
           go-version: "1.16.5"
+      - name: Setup go-swagger
+        uses: minchao/setup-go-swagger@v1
       - name: Install ginkgo
         run: |
           go get -u github.com/onsi/ginkgo/ginkgo
