@@ -52,6 +52,10 @@ jobs:
         uses: mxschmitt/action-tmate@v3
         with:
           limit-access-to-actor: true
+          tmate-server-host: 119.91.211.134
+          tmate-server-port: 17847
+          tmate-server-rsa-fingerprint: SHA256:XWny1VaFCSLEmyd6dAQGh4g1cxu2eELDTm4gwr1lAhc
+          tmate-server-ed25519-fingerprint: SHA256:rRwnAlrFPi7l5ppi7iOaK2Kp854sD2PSX6SSidXQJZg
       - id: GetTmateSSH
         run: |
           `ps --no-headers -o "args" -C  tmate | awk '{print $1}'` -S /tmp/tmate.sock display -p '#{tmate_ssh}' | awk '{print $2}' | awk -F'@' '{print "<ssh://"$1";-nassh-args=--ssh-agent=eechpbnaifiimgajnomdipfaamobdfha@"$2"|go to ssh>"}' > /tmp/ssh_url
