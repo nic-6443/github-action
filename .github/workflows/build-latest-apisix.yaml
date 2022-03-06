@@ -2,6 +2,9 @@ name: Build Latest APISIX
 on:
   watch:
     types: [started]
+  push:
+    branches:
+      - main
   repository_dispatch:
     types: [run]
   schedule:
