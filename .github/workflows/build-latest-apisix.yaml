@@ -1,0 +1,31 @@
+name: Build Latest APISIX
+on:
+  watch:
+    types: [started]
+  repository_dispatch:
+    types: [run]
+  on:
+    schedule:
+      - cron:  '0 3 * * *'
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    if: github.actor == github.event.repository.owner.login
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: 'apache/apisix-docker'
+      - name: Build Image
+        env:
+          APISIX_VERSION=master
+        run: |
+          make build-on-centos
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push Image
+        run:
+          docker tag apache/apisix:master-centos seew0nic/apisix:master-centos
+          docker push seew0nic/apisix:master-centos
