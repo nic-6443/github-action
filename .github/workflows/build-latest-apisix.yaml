@@ -29,5 +29,5 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Push Image
         run: |
-          docker tag apache/apisix:master-centos seew0nic/apisix:master-centos
-          docker push seew0nic/apisix:master-centos
+          docker tag apache/apisix:master-alpine-dev seew0nic/apisix:dev
+          docker push seew0nic/apisix:dev
