@@ -16,7 +16,7 @@ jobs:
           repository: 'apache/apisix-docker'
       - name: Build Image
         env:
-          APISIX_VERSION=master
+          "APISIX_VERSION": master
         run: |
           make build-on-centos
       - name: Login to Docker Hub
