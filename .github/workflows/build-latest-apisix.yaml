@@ -4,9 +4,8 @@ on:
     types: [started]
   repository_dispatch:
     types: [run]
-  on:
-    schedule:
-      - cron:  '0 3 * * *'
+  schedule:
+    - cron:  '0 3 * * *'
 jobs:
   run:
     runs-on: ubuntu-latest
