@@ -39,6 +39,13 @@ jobs:
         run: |
           go get -u github.com/onsi/ginkgo/ginkgo
           sudo cp ~/go/bin/ginkgo /usr/local/bin
+          
+      - name: Install Lua
+        uses: leafo/gh-actions-lua@v8
+
+      - name: Install Luarocks
+        uses: leafo/gh-actions-luarocks@v4
+                                                                                                                                                                                                                                                                                                                                                                                          
       - name: Setup Env
         env:
           KEY: ${{ secrets.KEY }}
