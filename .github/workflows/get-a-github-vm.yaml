@@ -12,40 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor == github.event.repository.owner.login
     steps:
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cache/go-build
-            ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
       - name: Install Dependency
         run: |
-          curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
-          chmod +x ./kind
-          sudo mv kind /usr/local/bin
-          curl -sS https://webinstall.dev/k9s | bash
           sudo apt install zsh
           sudo chmod g-w,o-w /usr/share/zsh /usr/share/zsh/vendor-completions
           sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-      - name: Setup Go Env
-        uses: actions/setup-go@v1
-        with:
-          go-version: "1.16.5"
-      - name: Setup go-swagger
-        uses: minchao/setup-go-swagger@v1
-      - name: Install ginkgo
-        run: |
-          go get -u github.com/onsi/ginkgo/ginkgo
-          sudo cp ~/go/bin/ginkgo /usr/local/bin
-          
       - name: Install Lua
         uses: leafo/gh-actions-lua@v8
-
       - name: Install Luarocks
-        uses: leafo/gh-actions-luarocks@v4
-                                                                                                                                                                                                                                                                                                                                                                                          
+        uses: leafo/gh-actions-luarocks@v4                                                                                                                                                                                                                                                                                                                                                            
       - name: Setup Env
         env:
           KEY: ${{ secrets.KEY }}
@@ -75,12 +50,6 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEB_HOOK }}
           SLACK_TITLE: Get A GITHUB VM
           SLACK_MESSAGE: "${{join(steps.GetTmateSSH.outputs.*, '\n')}}"
-      - name: Git Clone
-        env:
-          GIT_SSH_COMMAND: "ssh -i /tmp/ssh.key"
-        run: |
-          rm -f continue
-          git clone git@github.com:nic-6443/free-e2e.git .
       - name: Wait tmate exit
         run: |
           while true; do pgrep tmate || break; sleep 5; done
