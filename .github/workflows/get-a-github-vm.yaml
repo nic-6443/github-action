@@ -50,6 +50,15 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEB_HOOK }}
           SLACK_TITLE: Get A GITHUB VM
           SLACK_MESSAGE: "${{join(steps.GetTmateSSH.outputs.*, '\n')}}"
+      - name: Print Env
+        env:
+          GITHUB: ${{ github }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_NUMBER: ${{ github.run_number	}}
+        run: |
+          echo $RUN_ID
+          echo $RUN_NUMBER
+          echo $GITHUB
       - name: Wait tmate exit
         run: |
           while true; do pgrep tmate || break; sleep 5; done
