@@ -13,8 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor == github.event.repository.owner.login
     steps:
-      - run: echo "event name is:" ${{ github.event_name }} 
-      - run: echo "event type is:" ${{ github.event.action }} 
+      - name: test
+        if: ${{ github.event_name != "workflow_dispatch" }}
+        run: echo "event is not workflow_dispatch"
       - name: Print Env
         env:
           GITHUB: ${{ toJSON(github) }}
